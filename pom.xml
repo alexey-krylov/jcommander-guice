@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>jcommander-guice</groupId>
+    <artifactId>jcommander-guice-sample</artifactId>
+    <version>1.0.0</version>
+    <name>JCommander-Guice</name>
+    <description>JCommander and Google Guice</description>
+    <packaging>jar</packaging>
+
+    <properties>
+        <version.jcommander>1.18</version.jcommander>
+        <version.jansi>1.6</version.jansi>
+        <version.commons-io>2.0.1</version.commons-io>
+        <version.jline>0.9.94</version.jline>
+        <version.guice>3.0</version.guice>
+        <version.logback>0.9.29</version.logback>
+        <version.slf4j>1.6.2</version.slf4j>
+        <version.commons-lang>3.0.1</version.commons-lang>
+
+
+        <version.maven-compiler-plugin>2.3.2</version.maven-compiler-plugin>
+        <version.maven-jar-plugin>2.3.2</version.maven-jar-plugin>
+        <version.maven-surefire-plugin>2.9</version.maven-surefire-plugin>
+        <version.onejar-maven-plugin>1.4.4</version.onejar-maven-plugin>
+        <version.maven-assembly-plugin>2.2.1</version.maven-assembly-plugin>
+    </properties>
+
+    <dependencies>
+
+        <!-- Logging -->
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${version.logback}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${version.logback}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${version.slf4j}</version>
+        </dependency>
+
+        <!-- Google Stuff -->
+
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${version.guice}</version>
+        </dependency>
+
+        <!--External Stuff-->
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${version.commons-io}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <version>${version.jansi}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.beust</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>${version.jcommander}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jline</groupId>
+            <artifactId>jline</artifactId>
+            <version>${version.jline}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${version.commons-lang}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${version.maven-compiler-plugin}</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                    <optimize>true</optimize>
+                    <encoding>UTF-8</encoding>
+                    <debug>false</debug>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${version.maven-jar-plugin}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>assemble/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${version.maven-surefire-plugin}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.dstovall</groupId>
+                <artifactId>onejar-maven-plugin</artifactId>
+                <version>${version.onejar-maven-plugin}</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <mainClass>net.universe.jcg.runtime.Launcher</mainClass>
+                            <attachToBuild>true</attachToBuild>
+                            <classifier>onejar</classifier>
+                        </configuration>
+                        <goals>
+                            <goal>one-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${version.maven-assembly-plugin}</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/resources/assemble/assemble.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>do-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attached</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>

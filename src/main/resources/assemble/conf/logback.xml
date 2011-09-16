@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<configuration>
+
+    <!--  ===================================== Properties ========================================================= -->
+
+    <property name="PATTERN_FORMAT" value="%-20(%d{HH:mm:ss.SSS} [%thread]) %-5level %40.40logger{40} - %msg%n"/>
+    <property name="MAX_HISTORY" value="60"/>
+    <property name="ROLLOVER_DATE_PATTERN" value="%d{yyyy-MM-dd}"/>
+    <property name="LOG_BASE_DIR" value="../logs"/>
+    <property name="LOG_ROLLOVER_DIR" value="../logs.old"/>
+
+    <property name="CONSOLE_LEVEL" value="OFF"/>
+    <property name="CONNECTOR_LEVEL" value="INFO"/>
+    <property name="CONNECTOR_TRACE_LEVEL" value="OFF"/>
+
+    <!--  ===================================== Common Appenders =================================================== -->
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>${CONSOLE_LEVEL}</level>
+        </filter>
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>${PATTERN_FORMAT}</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="CONSOLE_PLAIN" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>%msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <appender name="Runtime" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_BASE_DIR}/runtime.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_ROLLOVER_DIR}/runtime.${ROLLOVER_DATE_PATTERN}.log</fileNamePattern>
+            <maxHistory>${MAX_HISTORY}</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>${PATTERN_FORMAT}</Pattern>
+        </encoder>
+    </appender>
+
+    <!--  ================================ Internal Components ===================================================== -->
+
+    <logger name="net.universe.jcg.cli" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE_PLAIN"/>
+    </logger>
+
+    <logger name="net.universe.jcg.service" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE_PLAIN"/>
+    </logger>
+
+    <!--  ===================================== Connectivity ======================================================= -->
+
+    <root level="INFO">
+        <!--<appender-ref ref="CONSOLE"/>-->
+        <appender-ref ref="Runtime"/>
+    </root>
+</configuration>
